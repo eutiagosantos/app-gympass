@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  api-gympass-pg:
+    image: bitnami/postgresql
+    restart: always
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: apigympass
+    ports:
+      - "5432:5432"
