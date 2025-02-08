@@ -1,5 +1,5 @@
 import { prisma } from '@/database/prisma'
-import { PrismaUsersRepository } from '@/repositories/prisma-user-repository'
+import { PrismaUsersRepository } from '@/repositories/prisma/prisma-user-repository'
 import { RegisterService } from '@/services/registerService'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
