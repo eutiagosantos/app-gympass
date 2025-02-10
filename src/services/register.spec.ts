@@ -1,15 +1,20 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { RegisterService } from './registerService'
 import { compare } from 'bcryptjs'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository'
 import { UserAlreadyExistsError } from './errors/UserAlreadyExistsError'
 
-describe('Register use case', () => {
-    it('should be able to register', async () => {
-        const userRepository = new InMemoryUserRepository()
-        const registerService = new RegisterService(userRepository)
+let sut: RegisterService
+let userRepository: InMemoryUserRepository
 
-        const { user } = await registerService.execute({
+describe('Register use case', () => {
+    beforeEach(() => {
+        userRepository = new InMemoryUserRepository()
+        sut = new RegisterService(userRepository)
+    })
+
+    it('should be able to register', async () => {
+        const { user } = await sut.execute({
             name: "Tiago Almeida",
             email: "tiagoalmeidasantos1812@gmial.com",
             password: "123456"
@@ -20,10 +25,8 @@ describe('Register use case', () => {
     })
 
     it('should hash user password upon registration', async () => {
-        const userRepository = new InMemoryUserRepository()
-        const registerService = new RegisterService(userRepository)
 
-        const { user } = await registerService.execute({
+        const { user } = await sut.execute({
             name: "Tiago Almeida",
             email: "tiagoalmeidasantos1812@gmial.com",
             password: "123456"
@@ -38,19 +41,17 @@ describe('Register use case', () => {
     })
 
     it('should not be able to register with same email twice', async () => {
-        const userRepository = new InMemoryUserRepository()
-        const registerService = new RegisterService(userRepository)
 
         const email = "user@example.com"
 
-        await registerService.execute({
+        await sut.execute({
             name: "Tiago Almeida",
             email,
             password: "123456"
         })
 
         await expect(() =>
-            registerService.execute({
+            sut.execute({
                 name: "Tiago Almeida",
                 email,
                 password: "123456"
