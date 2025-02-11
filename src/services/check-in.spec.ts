@@ -19,8 +19,8 @@ describe('Register use case', () => {
             title: 'Gym 123',
             description: '',
             phone: '',
-            latitude: new Decimal(0),
-            longitude: new Decimal(0),
+            latitude: new Decimal(-19.9163904),
+            longitude: new Decimal(-43.9681024)
         })
 
     })
@@ -34,8 +34,8 @@ describe('Register use case', () => {
         const { checkIn } = await sut.execute({
             user_id: 'user-1',
             gym_id: 'gym-1',
-            latitude: 0,
-            longitude: 0
+            userLatitude: -19.9163904,
+            userLongitude: -43.9681024
         })
 
         expect(checkIn.id).toEqual(expect.any(String))
@@ -47,15 +47,15 @@ describe('Register use case', () => {
         const { checkIn } = await sut.execute({
             user_id: 'user-1',
             gym_id: 'gym-1',
-            latitude: 0,
-            longitude: 0
+            userLatitude: -19.9163904,
+            userLongitude: -43.9681024
         })
 
         await expect(() => sut.execute({
             user_id: 'user-1',
             gym_id: 'gym-1',
-            latitude: 0,
-            longitude: 0
+            userLatitude: -19.9163904,
+            userLongitude: -43.9681024
         }),
         ).rejects.toBeInstanceOf(Error)
     })
@@ -66,20 +66,40 @@ describe('Register use case', () => {
         await sut.execute({
             user_id: 'user-1',
             gym_id: 'gym-1',
-            latitude: 0,
-            longitude: 0
+            userLatitude: -19.9163904,
+            userLongitude: -43.9681024
         })
+            ,
 
-        vi.setSystemTime(new Date(2025, 0, 19, 14, 0, 0))
+            vi.setSystemTime(new Date(2025, 0, 19, 14, 0, 0))
 
         const { checkIn } = await sut.execute({
             user_id: 'user-1',
             gym_id: 'gym-1',
-            latitude: 0,
-            longitude: 0
+            userLatitude: -19.9163904,
+            userLongitude: -43.9681024
         })
 
         expect(checkIn.id).toEqual(expect.any(String))
 
+    })
+
+    it('should not be able to checkin on distance gym', async () => {
+
+        gymRepository.items.push({
+            id: 'gym-2',
+            title: 'Gym 123',
+            description: '',
+            phone: '',
+            latitude: new Decimal(-19.9163904),
+            longitude: new Decimal(-43.9681024)
+        })
+
+        await expect(sut.execute({
+            user_id: 'user-1',
+            gym_id: 'gym-2',
+            userLatitude: -19.7958636,
+            userLongitude: -43.9772005
+        })).rejects.toBeInstanceOf(Error)
     })
 })
