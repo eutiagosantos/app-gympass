@@ -8,7 +8,7 @@ import { title } from "process"
 let gymRepository: InMemoryGymRepository
 let sut: SearchGymsService
 
-describe('Fetch user check-ins use case', () => {
+describe('Search Gyms use case', () => {
     beforeEach(() => {
         gymRepository = new InMemoryGymRepository()
         sut = new SearchGymsService(gymRepository)
@@ -41,7 +41,7 @@ describe('Fetch user check-ins use case', () => {
     })
 
 
-    it('should be able to fetch paginated check-in history', async () => {
+    it('should be able to search a multiple gyms', async () => {
 
         for (let i = 1; i <= 22; i++) {
             await gymRepository.create({
