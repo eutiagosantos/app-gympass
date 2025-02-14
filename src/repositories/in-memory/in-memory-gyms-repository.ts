@@ -3,6 +3,7 @@ import { GymRepository } from "../gyms-repository";
 import { randomUUID } from "crypto";
 
 export class InMemoryGymRepository implements GymRepository {
+
     public items: Gym[] = []
     async findById(id: string): Promise<Gym | null> {
         const gym = this.items.find((item) => item.id === id)
@@ -24,6 +25,12 @@ export class InMemoryGymRepository implements GymRepository {
         }
         this.items.push(gym)
         return gym
+    }
+
+
+    async findMany(query: string, page: number) {
+        return this.items.filter((item) => item.title.includes(query)).slice((page - 1) * 20, page * 20)
+
     }
 
 }
