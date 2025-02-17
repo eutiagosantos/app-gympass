@@ -1,10 +1,8 @@
 import { CheckInRepository } from "@/repositories/check-in-repository"
-import { GymRepository } from "@/repositories/gyms-repository"
 import { CheckIn } from "@prisma/client"
 import { ResourceNotFoundError } from "./errors/ResourceNotFoundError"
-import { getDistanceBetweenCoordinates } from "@/utils/get-distance-between-cordinates"
-import { CheckInOnSameDayError } from "./errors/CheckInOnSameDayError"
-import { MaxDistanceError } from "./errors/MaxDistanceError"
+import dayjs from "dayjs"
+import { LateCheckInValidationError } from "./errors/LateCheckInValidationError"
 
 interface IValidateCheckInRequest {
     id: string
@@ -22,6 +20,15 @@ export class ValidateCheckInService {
 
         if (!checkIn) {
             throw new ResourceNotFoundError()
+        }
+
+        const distanceInMinutesFromCheckInCreation = dayjs(new Date()).diff(
+            checkIn.created_at,
+            'minutes'
+        )
+
+        if (distanceInMinutesFromCheckInCreation > 20) {
+            throw new LateCheckInValidationError()
         }
 
         checkIn.validated_at = new Date()
