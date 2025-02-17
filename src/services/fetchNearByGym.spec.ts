@@ -3,7 +3,6 @@ import { InMemoryGymRepository } from "@/repositories/in-memory/in-memory-gyms-r
 import { Decimal } from "@prisma/client/runtime/library"
 import { FetchNearByGym } from "./fetchNearByGymService"
 
-
 let gymRepository: InMemoryGymRepository
 let sut: FetchNearByGym
 
