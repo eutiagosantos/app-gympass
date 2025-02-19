@@ -1,5 +1,6 @@
 import { UserAlreadyExistsError } from '@/services/errors/UserAlreadyExistsError'
 import { makeRegisterUseCase } from '@/services/factories/makeRegisterUseCase'
+import fastifyJwt from '@fastify/jwt'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
@@ -17,17 +18,20 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
     try {
         const registerService = makeRegisterUseCase()
 
-        await registerService.execute({
+        const { user } = await registerService.execute({
             name,
             email,
             password,
         })
 
+
     } catch (error) {
         if (error instanceof UserAlreadyExistsError) {
             return reply.status(409).send()
         }
+        console.error(error)
         return reply.status(500).send()
+
     }
 
     return reply.status(201).send()
