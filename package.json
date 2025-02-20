@@ -35,7 +35,8 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "vite-tsconfig-paths": "5.1.4",
-    "vitest": "3.0.5"
+    "vitest": "3.0.5",
+    "vitest-environment-prisma": "0.4.2"
   },
   "dependencies": {
     "@fastify/jwt": "9.0.4",
