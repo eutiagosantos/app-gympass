@@ -46,6 +46,7 @@
   "dependencies": {
     "@fastify/jwt": "9.0.4",
     "@prisma/client": "6.3.1",
+    "@types/supertest": "6.0.2",
     "app-gympass": "file:",
     "bcryptjs": "2.4.3",
     "dotenv": "16.4.7",
