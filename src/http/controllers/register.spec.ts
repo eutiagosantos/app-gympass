@@ -3,22 +3,22 @@ import request from "supertest"
 import { app } from "@/app";
 
 describe(("Register (e2e)"), () => {
-    beforeAll(() => {
-        app.ready()
+    beforeAll(async () => {
+        await app.ready()
     })
 
-    afterAll(() => {
-        app.close()
+    afterAll(async () => {
+        await app.close()
     })
 
     it(("should be able to Register "), async () => {
-        const response = (await request(app.server)
+        const response = await request(app.server)
             .post("/users")
             .send({
                 name: "Tiago",
                 email: "tiago@gmail.com",
                 password: "123456",
-            }))
+            })
 
         expect(response.statusCode).toEqual(201)
     })
