@@ -4,7 +4,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
     plugins: [tsconfigPaths()],
     test: {
-        environment: 'prisma', // Required
+        environment: './prisma/vitest-environment-prisma/prisma-environment-test.ts', // Required
         environmentOptions: {
             adapter: 'psql',
             envFile: '.env.test',
