@@ -11,6 +11,7 @@ export default defineConfig({
             adapter: 'psql',
             envFile: '.env.test',
         },
+        setupFiles: ['dotenv/config'], // Adiciona suporte ao dotenv nos testes
         workspace: [
             {
                 extends: true,
